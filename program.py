@@ -9,6 +9,15 @@ class Item(BaseModel):
     price: float
     is_offer: bool = None
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "name": "foo",
+                "price": 10.5,
+                "is_offer": True
+            }
+        }
+
 
 @app.get("/")
 def hello_world():
