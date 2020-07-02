@@ -62,6 +62,9 @@ def login(username: str = Form(...), password: str = Form(...)):
 
 
 @app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile = File(...)):
+async def create_upload_file(file: UploadFile = File(...), token: str = Form(...)):
+    """
+    http -f post http://127.0.0.1:8000/uploadfile/ file@~/Desktop/Books/whattolookforinacodereview.pdf token=1234
+    """
     print("File ", file.filename)
-    return {"filename": file.filename}
+    return {"filename": file.filename, "token": token}
