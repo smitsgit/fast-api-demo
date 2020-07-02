@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI, Cookie, Header, Form
+from fastapi import FastAPI, Cookie, Header, Form, UploadFile, File
 from pydantic import BaseModel, ValidationError
 
 app = FastAPI()
@@ -59,3 +59,9 @@ def update_item(item_id: int, item: Item):
 @app.post("/login")
 def login(username: str = Form(...), password: str = Form(...)):
     return {"username": username}
+
+
+@app.post("/uploadfile/")
+async def create_upload_file(file: UploadFile = File(...)):
+    print("File ", file.filename)
+    return {"filename": file.filename}
