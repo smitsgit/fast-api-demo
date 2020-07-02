@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI, Cookie
+from fastapi import FastAPI, Cookie, Header
 from pydantic import BaseModel, ValidationError
 
 app = FastAPI()
@@ -27,14 +27,21 @@ def hello_world():
 
 
 @app.get("/items")
-def read_cookie(ads_id: Optional[str] = Cookie(None)):
+def read_cookie(ads_id: Optional[str] = Cookie(None),
+                user_agent: Optional[str] = Header(None)):
     """
     HTTP clients send cookies to the server as regular HTTP headers.
     That means, HTTPie does not offer any special syntax for specifying cookies
 
     http http://127.0.0.1:8000/items Cookie:ads_id='121242'
     """
-    return {"cookie": ads_id}
+    return {"cookie": ads_id, "User-Agent": user_agent}
+
+
+@app.put("/items", response_model=Item, response_model_exclude={'is_offer'})
+def create_item():
+    # return Item(name="Smota", price=52.5, is_offer=True)
+    return {'name': 'GSmota', 'price': 52.5}
 
 
 @app.get("/items/{item_id}")
