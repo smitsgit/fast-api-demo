@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI, Cookie, Header
+from fastapi import FastAPI, Cookie, Header, Form
 from pydantic import BaseModel, ValidationError
 
 app = FastAPI()
@@ -54,3 +54,8 @@ def update_item(item_id: int, item: Item):
     data = {'name': "Smital", 'price': "test", 'is_offer': True}
     dm = Item(name=10, price='hello', is_offer=10)
     return {"item_price": item.price}
+
+
+@app.post("/login")
+def login(username: str = Form(...), password: str = Form(...)):
+    return {"username": username}
